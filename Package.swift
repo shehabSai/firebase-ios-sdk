@@ -160,7 +160,7 @@ let package = Package(
     ),
     .package(
       url: "https://github.com/firebase/nanopb.git",
-      "2.30909.0" ..< "2.30910.0"
+      branch: "test-rm-build"
     ),
     .package(
       url: "https://github.com/google/abseil-cpp-binary.git",
