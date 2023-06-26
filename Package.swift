@@ -23,7 +23,8 @@ let firebaseVersion = "10.12.0"
 
 let package = Package(
   name: "Firebase",
-  platforms: [.iOS(.v11), .macCatalyst(.v13), .macOS(.v10_13), .tvOS(.v12), .watchOS(.v7)],
+  platforms: [.iOS(.v11), .macCatalyst(.v13), .macOS(.v10_13), .tvOS(.v12), .watchOS(.v7),
+    .custom("visionOS", versionString: "1.0")],
   products: [
     .library(
       name: "FirebaseAnalytics",
@@ -1356,7 +1357,7 @@ func firestoreWrapperTarget() -> Target {
     return .target(
       name: "FirebaseFirestoreTarget",
       dependencies: [.target(name: "FirebaseFirestore",
-                             condition: .when(platforms: [.iOS, .tvOS, .macOS]))],
+                             condition: .when(platforms: [.iOS, .tvOS, .macOS, .firebaseVisionOS()]))],
       path: "SwiftPM-PlatformExclude/FirebaseFirestoreWrap"
     )
 //  }
@@ -1443,8 +1444,8 @@ func firestoreTarget() -> Target {
         .define("FIRFirestore_VERSION", to: firebaseVersion),
       ],
       linkerSettings: [
-        .linkedFramework("SystemConfiguration", .when(platforms: [.iOS, .macOS, .tvOS])),
-        .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS])),
+        .linkedFramework("SystemConfiguration", .when(platforms: [.iOS, .macOS, .tvOS, .firebaseVisionOS()])),
+        .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS, .firebaseVisionOS()])),
         .linkedLibrary("c++"),
       ]
     )
@@ -1455,4 +1456,11 @@ func firestoreTarget() -> Target {
 //    url: "https://dl.google.com/firebase/ios/bin/firestore/10.11.0/FirebaseFirestore.zip",
 //    checksum: "47da0c2d102c90d32ffa93cc5884c5a14eea006325944717b5e8d67ec9b440f3"
 //  )
+}
+
+extension Platform {
+  // visionOS platform identifier backported from SwiftPM 5.9.
+  static func firebaseVisionOS() -> Self {
+    return .custom("visionOS")
+  }
 }
