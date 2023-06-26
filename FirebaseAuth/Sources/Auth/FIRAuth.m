@@ -469,7 +469,7 @@ static NSMutableDictionary *gKeychainServiceNameForAppName;
                      appCheck:FIR_COMPONENT(FIRAppCheckInterop, app.container)];
   if (self) {
     _app = app;
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && (!defined(TARGET_OS_XR) || !TARGET_OS_XR)
     _authURLPresenter = [[FIRAuthURLPresenter alloc] init];
 #endif
   }
@@ -1638,9 +1638,11 @@ static NSMutableDictionary *gKeychainServiceNameForAppName;
 
 - (BOOL)canHandleURL:(NSURL *)URL {
   __block BOOL result = NO;
+#if TARGET_OS_IOS && (!defined(TARGET_OS_XR) || !TARGET_OS_XR)
   dispatch_sync(FIRAuthGlobalWorkQueue(), ^{
     result = [self->_authURLPresenter canHandleURL:URL];
   });
+#endif
   return result;
 }
 
