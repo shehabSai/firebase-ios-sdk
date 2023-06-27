@@ -1356,7 +1356,7 @@ func firestoreWrapperTarget() -> Target {
     return .target(
       name: "FirebaseFirestoreTarget",
       dependencies: [.target(name: "FirebaseFirestore",
-                             condition: .when(platforms: [.iOS, .tvOS, .macOS, .custom("visionOS")]))],
+                             condition: .when(platforms: [.iOS, .tvOS, .macOS, .visionOS]))],
       path: "SwiftPM-PlatformExclude/FirebaseFirestoreWrap"
     )
 //  }
