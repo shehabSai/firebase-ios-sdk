@@ -23,8 +23,7 @@ let firebaseVersion = "10.12.0"
 
 let package = Package(
   name: "Firebase",
-  platforms: [.iOS(.v11), .macCatalyst(.v13), .macOS(.v10_13), .tvOS(.v12), .watchOS(.v7),
-    .custom("visionOS", versionString: "1.0")],
+  platforms: [.iOS(.v11), .macCatalyst(.v13), .macOS(.v10_13), .tvOS(.v12), .watchOS(.v7)],
   products: [
     .library(
       name: "FirebaseAnalytics",
@@ -1357,7 +1356,7 @@ func firestoreWrapperTarget() -> Target {
     return .target(
       name: "FirebaseFirestoreTarget",
       dependencies: [.target(name: "FirebaseFirestore",
-                             condition: .when(platforms: [.iOS, .tvOS, .macOS, .firebaseVisionOS()]))],
+                             condition: .when(platforms: [.iOS, .tvOS, .macOS, .custom("visionOS")]))],
       path: "SwiftPM-PlatformExclude/FirebaseFirestoreWrap"
     )
 //  }
